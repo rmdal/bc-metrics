@@ -1,0 +1,126 @@
+---
+title: Evaluating Binary Classification Models
+subtitle: A Summary of Key Metrics
+output:
+  html:
+    meta:
+      css: [@default, @article]
+      js: [@sidenotes, @toc-highlight, @center-img]
+      include_after: _footer.html
+    options:
+      toc: 
+        collapse: true
+        scroll_highlight: true
+      number_sections: true
+---
+
+```{css, echo = FALSE}
+body {
+  font-family: Palatino, "Book Antiqua", Georgia, serif;
+  font-size: 1em;
+}
+#TOC {
+    font-size: 1em; /* Increase font size */
+  }
+#TOC.side {
+    .active {
+        color: dodgerblue;
+        font-weight: bold;
+    }
+}
+```
+## Intro
+
+The metrics—**precision**, **recall**, **specificity**, and a few others—are commonly used to evaluate classification models. They all derive from the **confusion matrix**, which summarizes the results of a binary classification:
+
+|                | Predicted Positive | Predicted Negative |
+|--------------|:---------------:|:---------------:|
+| **Actual Positive** | True Positive (TP) <br>"hit" | False Negative (FN) <br>"miss" |
+| **Actual Negative** | False Positive (FP) <br>"false alarm" | True Negative (TN) <br> "correct rejection" |
+
+## Precision
+ 
+**Precision** is also known as **Positive Predictive Value**.
+ 
+$$
+\text{Precision} = \frac{TP}{TP + FP}
+$$
+
+Precision answers the question: *When the model predicts positive, how often is it correct?*  
+  
+- A high precision means fewer false positives (i.e., less misclassification of negatives as positives).
+- Useful when false positives are costly, e.g., in spam detection (where flagging important emails as spam is bad).
+
+## Recall
+
+**Recall** is also known as **Sensitivity** or **True Positive Rate**.
+
+$$
+\text{Recall} = \frac{TP}{TP + FN}
+$$
+
+Recall answers the question: *Out of all actual positives, how many did the model correctly identify?*  
+
+- A high recall means fewer false negatives (i.e., fewer missed positive cases).
+- Useful when missing positives is costly, e.g., in medical diagnosis (where missing a disease case is dangerous).
+
+## Specificity
+Specificity is also known as **True Negative Rate**.
+
+$$
+\text{Specificity} = \frac{TN}{TN + FP}
+$$
+
+Specificity answers the question: *Out of all actual negatives, how many did the model correctly classify as negative?*
+- A high specificity means fewer false positives.
+- Important in cases where false positives lead to unnecessary interventions, e.g., in legal settings (where wrongful convictions must be avoided).
+
+## F1 Score
+F1 Score is the harmonic mean of precision and recall. It is a single metric that combines both precision and recall into one number.
+
+$$
+F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+$$
+
+- The F1 score balances precision and recall.
+- Useful when you need to balance the trade-off between false positives and false negatives.
+- Works well when the class distribution is imbalanced.
+
+## Accuracy
+Accuracy is the most straightforward metric, defined as the ratio of correctly predicted instances to the total instances.
+
+$$ \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} $$
+
+- Accuracy measures overall correctness.
+- However, it can be misleading in imbalanced datasets (e.g., if 95% of cases are negative, predicting "always negative" gives 95% accuracy but is useless).
+
+## ROC Curve & AUC
+ROC (Receiver Operating Characteristic) curve is a graphical representation of a model's performance across different thresholds. It plots *True Positive Rate (Recall)* vs. *False Positive Rate (1 - Specificity)* at each classification threshold.
+
+- The ROC curve shows the trade-off between sensitivity and specificity.
+
+![ROC Curve](roc.png){width=50%}
+
+In the ROC curve above:
+- The x-axis represents the **False Positive Rate** (FPR), which is the proportion of actual negatives that are incorrectly classified as positives.
+- The y-axis represents the **True Positive Rate** (TPR), which is the proportion of actual positives that are correctly classified as positives.
+- $T\in[0,1]$ is the threshold for classification (i.e., for a fixed $T=t$, if the classification probability score is greater than $t$, the instance is classified as positive; otherwise, it is classified as negative). As the threshold changes, the TPR and FPR change, leading to different points on the ROC curve. In other words, each point on the ROC curve corresponds to a different threshold, which leads to a specific confusion matrix (and associated TPR and FPR).
+- The diagonal line represents a random classifier (ask yourself why). A model above this line is better than random guessing.
+
+AUC (Area Under Curve) is the area under the ROC curve. summarizes model performance across different thresholds. A higher AUC indicates a better classifier. It's often used when you want to evaluate the model's performance without being tied to a specific threshold.
+- AUC is threshold-independent and provides a single score to compare models.
+
+
+## Which Metric to Use?
+
+The choice of metric depends on the specific problem and the consequences of false positives and false negatives. Here’s a summary:
+
+| Scenario | Key Metric |
+|----------|------------|
+| False positives are costly (e.g., spam filters, fraud detection) | Precision |
+| False negatives are costly (e.g., medical diagnosis, security threats) | Recall |
+| Need a balance between precision & recall | F1 Score |
+| Need to avoid unnecessary interventions (e.g., legal cases) | Specificity |
+| Balanced dataset, overall correctness matters | Accuracy |
+| Need threshold-independent evaluation | AUC-ROC |
+
