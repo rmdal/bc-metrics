@@ -3,16 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="generator" content="litedown 0.7">
+<meta name="generator" content="litedown 0.9">
 <title>Evaluating Binary Classification Models</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.7/css/default.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.7/css/article.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.7/js/sidenotes.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.7/js/toc-highlight.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.7/js/center-img.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/combine/npm/katex@0.16.21/dist/katex.min.js,npm/katex@0.16.21/dist/contrib/auto-render.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.7/js/render-katex.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.24/css/default.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.24/css/article.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css">
 </head>
 <body>
 <div class="frontmatter">
@@ -48,6 +43,7 @@ body {
 }
 </style>
 <h2 id="sec:intro"><span class="section-number main-number">1</span> Intro</h2>
+<p>A binary classification model predicts whether an instance belongs to one of two classes (e.g., positive vs. negative, spam vs. not spam). Evaluating the performance of such models is crucial to understand their effectiveness and make informed decisions about their deployment.</p>
 <p>The metrics—<strong>precision</strong>, <strong>recall</strong>, <strong>specificity</strong>, and a few others—are commonly used to evaluate classification models. They all derive from the <strong>confusion matrix</strong>, which summarizes the results of a binary classification:</p>
 <table>
 <thead>
@@ -118,6 +114,8 @@ $$</p>
 <li>However, it can be misleading in imbalanced datasets (e.g., if 95% of cases are negative, predicting “always negative” gives 95% accuracy but is useless).</li>
 </ul>
 <h2 id="sec:roc-curve-amp-auc"><span class="section-number main-number">7</span> ROC Curve &amp; AUC</h2>
+<p>Most binary classification models output a probability score for the positive class. To convert this score into a binary prediction, we choose a threshold (e.g., 0.5). A probability score above the threshold is classified as positive, while a score below the threshold is classified as negative.</p>
+<p>The choice of threshold affects the model’s performance in terms of the metrics discussed so far. To evaluate the model’s performance across all possible thresholds, we use the ROC curve and AUC.</p>
 <p>ROC (Receiver Operating Characteristic) curve is a graphical representation of a model’s performance across different thresholds. It plots <em>True Positive Rate (Recall)</em> vs. <em>False Positive Rate (1 - Specificity)</em> at each classification threshold.</p>
 <ul>
 <li>The ROC curve shows the trade-off between sensitivity and specificity.</li>
@@ -172,5 +170,10 @@ $$</p>
 </table>
 </div>
 <p>Prepared by Jay at <a href="https://rmdal.github.io">MDAL</a> with <a href="https://yihui.org/litedown/">litedown</a> and ChatGPT.</p>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.24/js/sidenotes.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.24/js/toc-highlight.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.24/js/center-img.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/combine/npm/katex@0.16.28/dist/katex.min.js,npm/katex@0.16.28/dist/contrib/auto-render.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.24/js/render-katex.min.js" defer></script>
 </body>
 </html>

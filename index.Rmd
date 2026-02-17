@@ -31,6 +31,8 @@ body {
 ```
 ## Intro
 
+A binary classification model predicts whether an instance belongs to one of two classes (e.g., positive vs. negative, spam vs. not spam). Evaluating the performance of such models is crucial to understand their effectiveness and make informed decisions about their deployment.
+
 The metrics—**precision**, **recall**, **specificity**, and a few others—are commonly used to evaluate classification models. They all derive from the **confusion matrix**, which summarizes the results of a binary classification:
 
 |                | Predicted Positive | Predicted Negative |
@@ -95,6 +97,10 @@ $$ \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} $$
 - However, it can be misleading in imbalanced datasets (e.g., if 95% of cases are negative, predicting "always negative" gives 95% accuracy but is useless).
 
 ## ROC Curve & AUC
+Most binary classification models output a probability score for the positive class. To convert this score into a binary prediction, we choose a threshold (e.g., 0.5). A probability score above the threshold is classified as positive, while a score below the threshold is classified as negative.
+
+The choice of threshold affects the model's performance in terms of the metrics discussed so far. To evaluate the model's performance across all possible thresholds, we use the ROC curve and AUC.
+
 ROC (Receiver Operating Characteristic) curve is a graphical representation of a model's performance across different thresholds. It plots *True Positive Rate (Recall)* vs. *False Positive Rate (1 - Specificity)* at each classification threshold.
 
 - The ROC curve shows the trade-off between sensitivity and specificity.
